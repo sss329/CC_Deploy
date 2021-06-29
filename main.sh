@@ -302,15 +302,10 @@ if [[ "$SYNC_GATEWAY" == 0 ]]; then
 
   cd "${CLI_INSTALL_LOCATION}"
 
-  sudo chmod -R 777 `${CLI_INSTALL_LOCATION}/datadisk/data`
-  sudo chmod -R 777 `${CLI_INSTALL_LOCATION}/datadisk/index`
-
   __log_debug "Node intialization"
   resval=$(./couchbase-cli node-init \
     --cluster="${LOCAL_IP}" \
     --node-init-hostname="${LOCAL_IP}" \
-    --node-init-data-path=/datadisk/data \
-    --node-init-index-path=/datadisk/index \
     --username="$CB_USERNAME" \
     --password="$CB_PASSWORD") || __log_error "Error during Node Initialization"
   __log_debug "node-init result: \'$resval\'"
