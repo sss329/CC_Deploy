@@ -383,7 +383,7 @@ function __install_syncgateway_ubuntu() {
     local tmp=$2
     __log_info "Installing Couchbase Sync Gateway Enterprise Edition v${version}"
     __log_debug "Downloading installer to: ${tmp}"
-    wget -O "${tmp}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb" "https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb" --quiet
+    wget -O "${tmp}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb" "https://packages.couchbase.com/releases/couchbase-sync-gateway/2.8.2/couchbase-sync-gateway-community_2.8.2_x86_64.deb" --quiet
     __log_debug "Download complete. Beginning Unpacking"
     if ! dpkg -i "${tmp}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb" > /dev/null ; then
         __log_error "Error while installing ${tmp}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb"
@@ -470,7 +470,7 @@ function __install_couchbase_ubuntu() {
     local tmp=$2
     __log_info "Installing Couchbase Server v${version}..."
     __log_debug "Downloading installer to: ${tmp}"
-    wget -O "${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb" "https://packages.couchbase.com/releases/7.0.0-beta/couchbase-server-community_7.0.0-beta-ubuntu18.04_amd64.deb" -q
+    wget -O "${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb" "https://packages.couchbase.com/releases/6.6.0/couchbase-server-community_6.6.0-ubuntu18.04_amd64.deb" -q
     __log_debug "Download Complete.  Beginning Unpacking"
     until dpkg -i "${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb" > /dev/null; do
         __log_error "Error while installing ${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb"
