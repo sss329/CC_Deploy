@@ -1,0 +1,4 @@
+/isos/
+*.iso
+/build
+/builder
