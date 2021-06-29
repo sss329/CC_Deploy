@@ -302,6 +302,9 @@ if [[ "$SYNC_GATEWAY" == 0 ]]; then
 
   cd "${CLI_INSTALL_LOCATION}"
 
+  sudo chmod 775 '/datadisk/data'
+  sudo chmod 775 '/datadisk/index'
+
   __log_debug "Node intialization"
   resval=$(./couchbase-cli node-init \
     --cluster="${LOCAL_IP}" \
