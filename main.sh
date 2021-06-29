@@ -302,8 +302,8 @@ if [[ "$SYNC_GATEWAY" == 0 ]]; then
 
   cd "${CLI_INSTALL_LOCATION}"
 
-  sudo chmod 775 '/datadisk/data'
-  sudo chmod 775 '/datadisk/index'
+  sudo chmod -R 777 `${CLI_INSTALL_LOCATION}/datadisk/data`
+  sudo chmod -R 777 `${CLI_INSTALL_LOCATION}/datadisk/index`
 
   __log_debug "Node intialization"
   resval=$(./couchbase-cli node-init \
