@@ -464,8 +464,7 @@ function __install_couchbase_amazon() {
     __install_couchbase_centos "$1" "$2"
 }
 
-function __install_couchbase_ubuntu() {
-#https://packages.couchbase.com/releases/7.0.0-beta/couchbase-server-community_7.0.0-beta-ubuntu18.04_amd64.deb
+function __install_couchbase_ubuntu() { 
     local version=$1
     local tmp=$2
     __log_info "Installing Couchbase Server v${version}..."
