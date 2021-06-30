@@ -302,66 +302,68 @@ if [[ "$SYNC_GATEWAY" == 0 ]]; then
 
   cd "${CLI_INSTALL_LOCATION}"
 
-  # __log_debug "Node intialization"
-  # resval=$(./couchbase-cli node-init \
-  #   --cluster="${LOCAL_IP}" \
-  #   --node-init-hostname="${LOCAL_IP}" \
-  #   --username="$CB_USERNAME" \
-  #   --password="$CB_PASSWORD") || __log_error "Error during Node Initialization"
-  # __log_debug "node-init result: \'$resval\'"
+  __log_debug "Node intialization"
+  resval=$(./couchbase-cli node-init \
+    --cluster="${LOCAL_IP}" \
+    --node-init-hostname="${LOCAL_IP}" \
+    --username="$CB_USERNAME" \
+    --password="$CB_PASSWORD") || __log_error "Error during Node Initialization"
+  __log_debug "node-init result: \'$resval\'"
 
 fi
 
-# if [[ $DO_CLUSTER == 1 ]]
-# then
-#   __log_debug "Running couchbase-cli cluster-init"
-#   result=$(./couchbase-cli cluster-init \
-#     --cluster="$CLUSTER_HOST" \
-#     --cluster-ramsize="$DATA_QUOTA" \
-#     --cluster-username="$CB_USERNAME" \
-#     --cluster-password="$CB_PASSWORD" \
-#     --services="$SERVICES") || __log_error "Error during Cluster Initialization"
-# __log_debug "cluster-init result: \'$result\'"
-# elif [[ $SYNC_GATEWAY == 0 ]] && [[ $NO_CLUSTER == 0 ]]; 
-# then
-#   __log_debug "Running couchbase-cli server-add"
-#   output=""
-#   while [[ $output != "Server $LOCAL_IP:8091 added" && $output != *"Node is already part of cluster."* ]]
-#   do
-#     __log_debug "In server add loop"
-#     if output=$(./couchbase-cli server-add \
-#       --cluster="$CLUSTER_HOST" \
-#       --username="$CB_USERNAME" \
-#       --password="$CB_PASSWORD" \
-#       --server-add="$LOCAL_IP" \
-#       --server-add-username="$CB_USERNAME" \
-#       --server-add-password="$CB_PASSWORD" \
-#       --services="$SERVICES" 2>&1); then
-#       output="Server $LOCAL_IP:8091 added"
-#     else
-#       __log_error "Error during Server Add"
-#     fi 
-#     __log_debug "server-add output \'$output\'"
-#     sleep 10
-#   done
 
-#   __log_debug "Running couchbase-cli rebalance"
-#   output=""
-#   while [[ ! $output =~ "SUCCESS" ]]
-#   do
-#     if ./couchbase-cli rebalance \
-#       --cluster="$CLUSTER_HOST" \
-#       --username="$CB_USERNAME" \
-#       --password="$CB_PASSWORD"; then
-#       output="SUCCESS"
-#       else
-#         __log_error "Error during Rebalance"
-#       fi
-#     __log_debug "rebalance output \'$output\'"
-#     sleep 10
-#   done
-# fi
-# __log_debug "Waiting for $WAIT nodes"
+if [[ $DO_CLUSTER == 1 ]]
+then
+  __log_debug "Running couchbase-cli cluster-init"
+  result=$(./couchbase-cli cluster-init \
+    --cluster="$CLUSTER_HOST" \
+    --cluster-ramsize="$DATA_QUOTA" \
+    --cluster-index-ramsize 256 \
+    --cluster-username="$CB_USERNAME" \
+    --cluster-password="$CB_PASSWORD" \
+    --services="$SERVICES") || __log_error "Error during Cluster Initialization"
+__log_debug "cluster-init result: \'$result\'"
+elif [[ $SYNC_GATEWAY == 0 ]] && [[ $NO_CLUSTER == 0 ]]; 
+then
+  __log_debug "Running couchbase-cli server-add"
+  output=""
+  while [[ $output != "Server $LOCAL_IP:8091 added" && $output != *"Node is already part of cluster."* ]]
+  do
+    __log_debug "In server add loop"
+    if output=$(./couchbase-cli server-add \
+      --cluster="$CLUSTER_HOST" \
+      --username="$CB_USERNAME" \
+      --password="$CB_PASSWORD" \
+      --server-add="$LOCAL_IP" \
+      --server-add-username="$CB_USERNAME" \
+      --server-add-password="$CB_PASSWORD" \
+      --services="$SERVICES" 2>&1); then
+      output="Server $LOCAL_IP:8091 added"
+    else
+      __log_error "Error during Server Add"
+    fi 
+    __log_debug "server-add output \'$output\'"
+    sleep 10
+  done
+
+  __log_debug "Running couchbase-cli rebalance"
+  output=""
+  while [[ ! $output =~ "SUCCESS" ]]
+  do
+    if ./couchbase-cli rebalance \
+      --cluster="$CLUSTER_HOST" \
+      --username="$CB_USERNAME" \
+      --password="$CB_PASSWORD"; then
+      output="SUCCESS"
+      else
+        __log_error "Error during Rebalance"
+      fi
+    __log_debug "rebalance output \'$output\'"
+    sleep 10
+  done
+fi
+__log_debug "Waiting for $WAIT nodes"
 
 # if [[ "$WAIT" -ne "0" && "$SYNC_GATEWAY" -ne "1" ]]; then
 #   __log_info "Beginning wait for cluster to have $WAIT nodes"
