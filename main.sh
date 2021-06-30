@@ -320,8 +320,6 @@ then
     --cluster-ramsize="$DATA_QUOTA" \
     --cluster-index-ramsize="$INDEX_QUOTA" \
     --cluster-fts-ramsize="$SEARCH_QUOTA" \
-    --cluster-eventing-ramsize="$EVENTING_QUOTA" \
-    --cluster-analytics-ramsize="$ANALYTICS_QUOTA" \
     --cluster-username="$CB_USERNAME" \
     --cluster-password="$CB_PASSWORD" \
     --services="$SERVICES") || __log_error "Error during Cluster Initialization"
