@@ -241,26 +241,26 @@ fi
 __log_debug "Hostname:  ${HOST}"
 __log_debug "Local IP: ${LOCAL_IP}"
 
-# Check if host is cluster host, or local ip, or if the clusterhost contains the host for FQDN on GCP
-if [[ "$CLUSTER_HOST" == "$HOST" ]] || 
-   [[ "$CLUSTER_HOST" == "$LOCAL_IP" ]] || 
-   [[ "$CLUSTER_HOST" == *"$HOST"* ]] || 
-   [[ "$CLUSTER_HOST" == "$PUBLIC_HOSTNAME" ]]; then
-    __log_info "${CLUSTER_HOST} is host and is this machine"
-    DO_CLUSTER=1
-fi
+# # Check if host is cluster host, or local ip, or if the clusterhost contains the host for FQDN on GCP
+# if [[ "$CLUSTER_HOST" == "$HOST" ]] || 
+#    [[ "$CLUSTER_HOST" == "$LOCAL_IP" ]] || 
+#    [[ "$CLUSTER_HOST" == *"$HOST"* ]] || 
+#    [[ "$CLUSTER_HOST" == "$PUBLIC_HOSTNAME" ]]; then
+#     __log_info "${CLUSTER_HOST} is host and is this machine"
+#     DO_CLUSTER=1
+# fi
 
-if [[ "$SYNC_GATEWAY" == 1 ]] || [[ "$NO_CLUSTER" == 1 ]]; then
-    DO_CLUSTER=0
-fi
+# if [[ "$SYNC_GATEWAY" == 1 ]] || [[ "$NO_CLUSTER" == 1 ]]; then
+#     DO_CLUSTER=0
+# fi
 
-__log_debug "The username is ${CB_USERNAME}"
-__log_debug "The password is ${CB_PASSWORD}"
+# __log_debug "The username is ${CB_USERNAME}"
+# __log_debug "The password is ${CB_PASSWORD}"
 
-#Slap a warning if the user did not specify a username/passsword
-if [[ "$CB_USERNAME" == "$DEFAULT_USERNAME" ]] && [[ "$CB_PASSWORD" == "$DEFAULT_PASSWORD" ]]; then
-    __log_warning "Default user name and password detected.  You should immediately log into the web console and change the password on the couchbase user!"
-fi
+# #Slap a warning if the user did not specify a username/passsword
+# if [[ "$CB_USERNAME" == "$DEFAULT_USERNAME" ]] && [[ "$CB_PASSWORD" == "$DEFAULT_PASSWORD" ]]; then
+#     __log_warning "Default user name and password detected.  You should immediately log into the web console and change the password on the couchbase user!"
+# fi
 
 
 
