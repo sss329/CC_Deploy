@@ -302,15 +302,15 @@ if [[ "$SYNC_GATEWAY" == 0 ]]; then
 
   cd "${CLI_INSTALL_LOCATION}"
 
-#   __log_debug "Node intialization"
-#   resval=$(./couchbase-cli node-init \
-#     --cluster="${LOCAL_IP}" \
-#     --node-init-hostname="${LOCAL_IP}" \
-#     --username="$CB_USERNAME" \
-#     --password="$CB_PASSWORD") || __log_error "Error during Node Initialization"
-#   __log_debug "node-init result: \'$resval\'"
+  __log_debug "Node intialization"
+  resval=$(./couchbase-cli node-init \
+    --cluster="${LOCAL_IP}" \
+    --node-init-hostname="${LOCAL_IP}" \
+    --username="$CB_USERNAME" \
+    --password="$CB_PASSWORD") || __log_error "Error during Node Initialization"
+  __log_debug "node-init result: \'$resval\'"
 
-# fi
+fi
 
 
 # if [[ $DO_CLUSTER == 1 ]]
