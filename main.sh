@@ -282,25 +282,25 @@ __configure_environment "$ENV" "$OS" "$SYNC_GATEWAY"
 __log_debug "Completed Post Installation Configuration"
 
 
-# if [[ "$SYNC_GATEWAY" == 0 ]]; then
+if [[ "$SYNC_GATEWAY" == 0 ]]; then
 
-#   __log_debug "CLI Installed to:  ${CLI_INSTALL_LOCATION}"
+  __log_debug "CLI Installed to:  ${CLI_INSTALL_LOCATION}"
 
-#   __log_debug "Prior to initialization.  Let's hit the UI and make sure we get a response"
-#   sleep 5 # There can be an issue where the installation has completed but Couchbase Server is not responsive yet.  Adding this wait to make sure we have time to get active
-#   LOCAL_HOST_GET=$(wget --server-response --spider "http://localhost:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
-#   __log_debug "LOCALHOST http://localhost:8091/ui/index.html: $LOCAL_HOST_GET"
+  __log_debug "Prior to initialization.  Let's hit the UI and make sure we get a response"
+  sleep 5 # There can be an issue where the installation has completed but Couchbase Server is not responsive yet.  Adding this wait to make sure we have time to get active
+  LOCAL_HOST_GET=$(wget --server-response --spider "http://localhost:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
+  __log_debug "LOCALHOST http://localhost:8091/ui/index.html: $LOCAL_HOST_GET"
 
-#   LOOPBACK_GET=$(wget  --server-response --spider "http://127.0.0.1:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
-#   __log_debug "LOOPBACK http://127.0.0.1:8091/ui/index.html: $LOOPBACK_GET"
+  LOOPBACK_GET=$(wget  --server-response --spider "http://127.0.0.1:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
+  __log_debug "LOOPBACK http://127.0.0.1:8091/ui/index.html: $LOOPBACK_GET"
 
-#   HOSTNAME_GET=$(wget  --server-response --spider "http://${HOST}:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
-#   __log_debug "HOST http://${HOST}:8091/ui/index.html:  $HOSTNAME_GET"
+  HOSTNAME_GET=$(wget  --server-response --spider "http://${HOST}:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
+  __log_debug "HOST http://${HOST}:8091/ui/index.html:  $HOSTNAME_GET"
 
-#   IP_GET=$(wget --server-response --spider "http://${LOCAL_IP}:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
-#   __log_debug "IP http://${LOCAL_IP}:8091/ui/index.html: $IP_GET"
+  IP_GET=$(wget --server-response --spider "http://${LOCAL_IP}:8091/ui/index.html" 2>&1 | awk '/^  HTTP/{a=$2} END{print a}')
+  __log_debug "IP http://${LOCAL_IP}:8091/ui/index.html: $IP_GET"
 
-#   cd "${CLI_INSTALL_LOCATION}"
+  cd "${CLI_INSTALL_LOCATION}"
 
 #   __log_debug "Node intialization"
 #   resval=$(./couchbase-cli node-init \
