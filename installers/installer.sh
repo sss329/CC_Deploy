@@ -14,9 +14,6 @@ function __check_os_version() {
     elif [[ "$os" == "RHEL" ]]; then
         OS_VERSION=$(awk '/^VERSION_ID=/{print $1}' /etc/os-release | awk -F"=" '{print $2}' | sed -e 's/^"//' -e 's/"//' | cut -c1-1)
         SUPPORTED_VERSIONS=("${RHEL_OS_SUPPORTED_VERSIONS[@]}")
-    elif [[ "$os" == "AMAZON" ]]; then
-        OS_VERSION=$(awk '/^VERSION_ID=/{print $1}' /etc/os-release | awk -F"=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
-        SUPPORTED_VERSIONS=("${AMAZON_LINUX_OS_SUPPORTED_VERSIONS[@]}")
     else
         OS_VERSION=$(awk 'NR==1{print $2}' /etc/issue | cut -c-5)
         SUPPORTED_VERSIONS=("${UBUNTU_OS_SUPPORTED_VERSIONS[@]}")
@@ -26,7 +23,7 @@ function __check_os_version() {
     supported=$(__elementIn "${OS_VERSION}" "${SUPPORTED_VERSIONS[@]}")
     __log_debug "Is supported: $supported"
     if [[ "$supported" == "1" ]]; then
-        __log_error "This version of ${os} is not supported by Couchbase Server Enterprise Edition."
+        __log_error "This version of ${os} is not supported by Couchbase Server CCs."
         exit 1
     fi
 }
@@ -381,12 +378,12 @@ function __install_syncgateway_ubuntu() {
     #https://packages.couchbase.com/releases/7.0.0-beta/couchbase-server-community_7.0.0-beta-ubuntu18.04_amd64.deb
     local version=$1
     local tmp=$2
-    __log_info "Installing Couchbase Sync Gateway Enterprise Edition v${version}"
+    __log_info "Installing Couchbase Sync Gateway community Edition v${version}"
     __log_debug "Downloading installer to: ${tmp}"
-    wget -O "${tmp}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb" "https://packages.couchbase.com/releases/couchbase-sync-gateway/2.8.2/couchbase-sync-gateway-community_2.8.2_x86_64.deb" --quiet
+    wget -O "${tmp}/couchbase-sync-gateway-community_${version}_x86_64.deb" "https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-community_${version}_x86_64.deb" --quiet
     __log_debug "Download complete. Beginning Unpacking"
-    if ! dpkg -i "${tmp}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb" > /dev/null ; then
-        __log_error "Error while installing ${tmp}/couchbase-sync-gateway-enterprise_${version}_x86_64.deb"
+    if ! dpkg -i "${tmp}/couchbase-sync-gateway-community_${version}_x86_64.deb" > /dev/null ; then
+        __log_error "Error while installing ${tmp}/couchbase-sync-gateway-community_${version}_x86_64.deb"
         exit 1
     fi
 }
@@ -469,10 +466,10 @@ function __install_couchbase_ubuntu() {
     local tmp=$2
     __log_info "Installing Couchbase Server v${version}..."
     __log_debug "Downloading installer to: ${tmp}"
-    wget -O "${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb" "https://packages.couchbase.com/releases/6.6.0/couchbase-server-community_6.6.0-ubuntu18.04_amd64.deb" -q
+    wget -O "${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb" "https://packages.couchbase.com/releases/6.6.0/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb" -q
     __log_debug "Download Complete.  Beginning Unpacking"
-    until dpkg -i "${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb" > /dev/null; do
-        __log_error "Error while installing ${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb"
+    until dpkg -i "${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb" > /dev/null; do
+        __log_error "Error while installing ${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb"
         sleep 1
     done
     __log_debug "Unpacking complete.  Beginning Installation"
@@ -481,7 +478,7 @@ function __install_couchbase_ubuntu() {
         sleep 1
     done
     until apt-get -y install couchbase-server-community -qq > /dev/null; do
-        __log_error "Error while installing ${tmp}/couchbase-server-enterprise_${version}-ubuntu${OS_VERSION}_amd64.deb"
+        __log_error "Error while installing ${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb"
         sleep 1
     done
 }
