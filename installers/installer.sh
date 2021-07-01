@@ -466,7 +466,7 @@ function __install_couchbase_ubuntu() {
     local tmp=$2
     __log_info "Installing Couchbase Server v${version}..."
     __log_debug "Downloading installer to: ${tmp}"
-    wget -O "${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb" "https://packages.couchbase.com/releases/${version}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb" -q
+    wget -O "${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb" "https://packages.couchbase.com/releases/${version}/couchbase-server-community_${version}-ubuntu18.04_amd64.deb" -q
     __log_debug "Download Complete.  Beginning Unpacking"
     until dpkg -i "${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb" > /dev/null; do
         __log_error "Error while installing ${tmp}/couchbase-server-community_${version}-ubuntu${OS_VERSION}_amd64.deb"
